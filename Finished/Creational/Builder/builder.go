@@ -1,4 +1,5 @@
 package main
+import "fmt"
 
 // The NotificationBuilder has fields exported as well as a few methods
 // to demonstrate
@@ -40,6 +41,13 @@ func (nb *NotificationBuilder) SetType(notType string) {
 }
 
 func (nb *NotificationBuilder) Build() (Notification, error) {
+	if nb.Icon != "" && nb.SubTitle == "" {
+		return nil, fmt.Errorf("You need to specify a subtitle when using an icon")
+	}
+	if nb.Priority > 5 {
+		return nil, fmt.Errorf("Priority must be 0 to 5")
+	}
+
 	return Notification{
 		title:    nb.Title,
 		message:  nb.Message,
